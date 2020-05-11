@@ -1,19 +1,9 @@
 #https://github.com/wipedlifepotato/VnukuElkina
 from DonaPay.DonaPayMain import DonatePay
 from config.config import config
-
-from random import randint
-import time
 from splinter import Browser #https://github.com/mozilla/geckodriver/releases/
-import requests
-import urllib
-import json
-
-import re
-
-
-#pip3 install splinter requests urllib json re
-
+import time, re
+#pip3 install splinter requests urllib json re ... etc. see in DonaPay main class
 class DonatePlay_splinter(DonatePay):
   def __init__(self):
    self.last_id=self.get_last_id() #super(...)?
