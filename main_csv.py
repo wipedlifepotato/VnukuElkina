@@ -18,10 +18,14 @@ import os.path
 #pip3 install splinter requests urllib json re
 
 class DonatePlay():
-  def last_id_update(self,_id):
+  def last_id_update(self,trans):
+   min = self.last_id
+   for i in trans:
+    if i['id'] > min: min=i['id']
+   if min != self.last_id: self.last_id=min
    f=open('last_id', "w")
-   print("write to last id: %d" % _id) 
-   f.write( str(_id) )
+   print("write to last id: %d" % self.last_id) 
+   f.write( str(self.last_id) )
    f.close()
   def get_last_id(self):
    try:
@@ -39,6 +43,8 @@ class DonatePlay():
   def get(self, addr, app_payload={}):
    payload = {'access_token': config.token, 'type': 'donation'} 
    payload.update( app_payload )
+   print("payload: ")
+   print ( payload )
    r= requests.get(addr,params=payload)
    return json.loads(r.content)
   def update_csv(self, data):
@@ -55,7 +61,7 @@ class DonatePlay():
   def getlasttrans(self, app_payload={}):
    
    i=self.get_last_id()
-   #print("last id %s" % i)
+   print("last id %s" % i)
    if i != False:
     app_payload.update({"after":i})
    l=self.get( "https://donatepay.ru/api/v1/transactions?",app_payload )
@@ -72,12 +78,13 @@ class DonatePlay():
    print(lasts.content)
 
   def __init__(self):
-   self.videos=[]
+   #self.videos=[]
+   self.last_id=self.get_last_id
+   if self.last_id == False: self.last_id=0
   # ydl=youtube_dl.YoutubeDL()
    r = re.compile('(https?://)?(www\.)?((youtube\.(com))/watch\?v=([-\w]+)|youtu\.be/([-\w]+))')
    ids=[]
    while True:
-    
     try:
        print("wait new videos")
        data_trans=self.getlasttrans()
@@ -107,11 +114,12 @@ class DonatePlay():
          print("----")
          #TODO: собрать массив из этих видосов. и разобраться как лучше сортировать, и удалять то что посмотренно. 
        print("~~~ last id ~~~")
-       self.last_id_update( data_trans[-1]['id'] )
+       
+       self.last_id_update( data_trans )
        time.sleep(25)    
     except Exception as e:
-     
-     print ( str(e) )
+     print ( "Exception: " + str(e) )
+     time.sleep(25)
 Don = DonatePlay()
   
 
