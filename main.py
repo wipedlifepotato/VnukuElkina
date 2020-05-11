@@ -1,3 +1,4 @@
+#https://github.com/wipedlifepotato/VnukuElkina
 from config.config import config
 from random import randint
 import time
