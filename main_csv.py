@@ -51,6 +51,8 @@ class DonatePay_csv(DonatePay):
        
          print( data )
          self.update_csv( data )
+         #data={ 'title' : "Тест русского текста", 'duration' : video_duration, 'payed' : sum_donation, 'minutes_payed': ((float(i['sum'])/config.price)), 'url':"https://"+urls[2]}
+        # self.update_csv( data )
          time.sleep(5)
          print("----")
          #TODO: собрать массив из этих видосов. и разобраться как лучше сортировать, и удалять то что посмотренно. 

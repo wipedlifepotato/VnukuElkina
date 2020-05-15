@@ -37,7 +37,7 @@ class DonatePay():
    return json.loads(r.content)
   def update_csv(self, data):
    exists=os.path.isfile('Videos.csv') 
-   f=open('Videos.csv', 'a')
+   f=open('Videos.csv', 'a', encoding='utf-8')
    #Титл, ссылка, оплачено, длительность видео, оплачено минут.
    fnames = ['title', 'url', 'payed', 'duration', 'minutes_payed']
    writer = csv.DictWriter(f,fieldnames=fnames, delimiter="|")
